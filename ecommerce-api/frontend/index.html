@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Listings</title>
+  </head>
+  <body>
+    <h1>Product Listings</h1>
+    <input type="text" id="search" placeholder="Search products..." />
+    <button onclick="loadProducts()">Search</button>
+    <div id="products"></div>
+
+    <script>
+      async function loadProducts() {
+        const search = document.getElementById("search").value;
+        const res = await fetch(
+          `http://localhost:5000/api/products?search=${search}`
+        );
+        const data = await res.json();
+        const container = document.getElementById("products");
+        container.innerHTML = data.products
+          .map((p) => `<p>${p.name} - ₹${p.price}</p>`)
+          .join("");
+      }
+      loadProducts();
+    </script>
+  </body>
+</html>
